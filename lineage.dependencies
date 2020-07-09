@@ -1,0 +1,6 @@
+[
+ {
+   "repository": "android_device_nvidia_foster",
+   "target_path": "device/nvidia/foster"
+ }
+]
