@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<!-- Nvidia Tegra Partition Layout Version 1.0.0 -->
+
+<partition_layout version="01.00.0000">
+    <device type="spi" instance="0">
+        <partition name="DTB" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 3604480 </size>
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> tegra210-p3448-0003-p3542-0000-android.dtb </filename>
+        </partition>
+    </device>
+</partition_layout>
