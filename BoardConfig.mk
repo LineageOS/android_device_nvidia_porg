@@ -24,6 +24,7 @@ TARGET_BOARD_INFO_FILE :=
 
 BOARD_CUSTOM_BOOTIMG    := true
 BOARD_CUSTOM_BOOTIMG_MK := device/nvidia/porg/mkbootimg.mk
+BOARD_KERNEL_CMDLINE    += sdhci_tegra.en_boot_part_access=1
 
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := device/nvidia/porg/releasetools
