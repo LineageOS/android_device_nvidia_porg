@@ -24,3 +24,6 @@ TARGET_BOARD_INFO_FILE :=
 
 BOARD_CUSTOM_BOOTIMG    := true
 BOARD_CUSTOM_BOOTIMG_MK := device/nvidia/porg/mkbootimg.mk
+
+# Releasetools
+TARGET_RELEASETOOLS_EXTENSIONS := device/nvidia/porg/releasetools
