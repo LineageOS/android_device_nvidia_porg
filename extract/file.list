@@ -1,0 +1,8 @@
+l4t-t210-3244	Linux_for_Tegra/bootloader/t210ref/cboot.bin			porg/bootloader/cboot.bin
+l4t-t210-3244	Linux_for_Tegra/bootloader/t210ref/nvtboot.bin			porg/bootloader/nvtboot.bin
+l4t-t210-3244	Linux_for_Tegra/bootloader/nvtboot_cpu.bin			porg/bootloader/nvtboot_cpu.bin
+l4t-t210-3244	Linux_for_Tegra/bootloader/nvtboot_recovery.bin			porg/bootloader/nvtboot_recovery.bin
+l4t-t210-3244	Linux_for_Tegra/bootloader/rp4.blob				porg/bootloader/rp4.blob
+l4t-t210-3244	Linux_for_Tegra/bootloader/t210ref/sc7entry-firmware.bin	porg/bootloader/sc7entry-firmware.bin
+l4t-t210-3244	Linux_for_Tegra/bootloader/tos-mon-only.img			porg/bootloader/tos-mon-only.img
+l4t-t210-3244	Linux_for_Tegra/bootloader/t210ref/warmboot.bin			porg/bootloader/warmboot.bin
