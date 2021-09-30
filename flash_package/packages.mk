@@ -24,6 +24,7 @@ COMMON_FLASH    := $(BUILD_TOP)/device/nvidia/tegra-common/flash_package
 INSTALLED_BMP_BLOB_TARGET      := $(PRODUCT_OUT)/bmp.blob
 INSTALLED_KERNEL_TARGET        := $(PRODUCT_OUT)/kernel
 INSTALLED_RECOVERYIMAGE_TARGET := $(PRODUCT_OUT)/recovery.img
+INSTALLED_TOS_TARGET           := $(PRODUCT_OUT)/tos-mon-only.img
 
 TOYBOX_HOST  := $(HOST_OUT_EXECUTABLES)/toybox
 AWK_HOST     := $(HOST_OUT_EXECUTABLES)/one-true-awk
@@ -37,7 +38,7 @@ LOCAL_MODULE_PATH   := $(PRODUCT_OUT)
 _p3450_package_intermediates := $(call intermediates-dir-for,$(LOCAL_MODULE_CLASS),$(LOCAL_MODULE))
 _p3450_package_archive := $(_p3450_package_intermediates)/$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
 
-$(_p3450_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(AWK_HOST) $(TOYBOX_HOST)
+$(_p3450_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(INSTALLED_TOS_TARGET) $(AWK_HOST) $(TOYBOX_HOST)
 	@mkdir -p $(dir $@)/tegraflash
 	@mkdir -p $(dir $@)/scripts
 	@cp $(TEGRAFLASH_PATH)/tegra* $(dir $@)/tegraflash/
@@ -49,6 +50,8 @@ $(_p3450_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_KERNEL_TARGE
 	@cp $(PORG_FLASH)/flash_android_t210_max-spi_sd_p3448.xml $(dir $@)/
 	@cp $(PORG_FLASH)/sign.xml $(dir $@)/
 	@cp $(T210_BL)/* $(dir $@)/
+	@rm $(dir $@)/tos-mon-only.img
+	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/
 	@cp $(INSTALLED_BMP_BLOB_TARGET) $(dir $@)/
 	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/
 	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/tegra210-p3448-*-p3449-0000-*-android-devkit.dtb $(dir $@)/
