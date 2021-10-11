@@ -18,12 +18,12 @@ PATH=$(pwd)/tegraflash:${PATH}
 
 TARGET_TEGRA_VERSION=t210nano;
 TARGET_MODULE_ID=3448;
-#TARGET_CARRIER_ID=3509;
-TARGET_CARRIER_ID=;
+# p3449 is the 4gb devkit carrier, p3452 is the 2gb carrier, but t210 can't read carrier eeprom anyways
+TARGET_CARRIER_ID=3449;
 
 source $(pwd)/scripts/helpers.sh;
 
-declare -a FLASH_CMD_BASIC=(
+declare -a FLASH_CMD_EEPROM=(
   --applet nvtboot_recovery.bin
   --chip 0x21);
 
@@ -31,8 +31,8 @@ if ! get_interfaces; then
   exit -1;
 fi;
 
-if ! check_module_compatibility ${TARGET_MODULE_ID}; then
-  echo "No Jetson Nano module found";
+if ! check_compatibility ${TARGET_MODULE_ID} ${TARGET_CARRIER_ID}; then
+  echo "No Jetson Nano Devkit found";
   exit -1;
 fi;
 
@@ -52,13 +52,16 @@ if [ ${MODULEINFO[sku]} -eq 2 ]; then
 elif [ ${MODULEINFO[sku]} -eq 3 ]; then
   FLASH_XML="flash_android_t210_max-spi_sd_p3448.xml"
   BL_DTB="tegra210-p3448-0003-p3542-0000-android.dtb"
-else
+elif [ ${MODULEINFO[sku]} -eq 0 ]; then
   FLASH_XML="flash_android_t210_max-spi_sd_p3448.xml"
   if [ "${MODULEINFO[version]}" \< "300" ]; then
     BL_DTB="tegra210-p3448-0000-p3449-0000-a02-android-devkit.dtb"
   else
     BL_DTB="tegra210-p3448-0000-p3449-0000-b00-android-devkit.dtb"
   fi;
+else
+  echo "Unsupported Nano module sku: ${MODULEINFO[sku]}";
+  exit -1;
 fi;
 
 # Sign some images
@@ -67,7 +70,7 @@ cp ${BL_DTB} temp.dtb > /dev/null
 cp recovery.img recovery.tmp > /dev/null
 cp cboot.bin cboot.tmp > /dev/null
 tegraflash.py \
-  "${FLASH_CMD_BASIC[@]}" \
+  "${FLASH_CMD_EEPROM[@]}" \
   --bct ${BCT_CFG} \
   --instance ${INTERFACE} \
   --cfg sign.xml \
@@ -79,22 +82,17 @@ cp signed/cboot.tmp.encrypt . > /dev/null
 rm -rf signed temp.dtb recovery.tmp cboot.tmp > /dev/null
 truncate -s 589824 cboot.tmp.encrypt
 
-declare -a FLASH_CMD_FULL=(
-  ${FLASH_CMD_BASIC[@]}
+declare -a FLASH_CMD_FLASH=(
+  ${FLASH_CMD_EEPROM[@]}
   --bl cboot.tmp.encrypt
   --odmdata 0x94000
   --bct ${BCT_CFG}
   --bldtb temp.dtb.encrypt)
 
-if ! check_carrier_compatibility ${TARGET_CARRIER_ID}; then
-  echo "No Jetson Nano Devkit found";
-  exit -1;
-fi;
-
 dd if=/dev/zero bs=4096 count=256 of=dummy.bin
 
 tegraflash.py \
-  "${FLASH_CMD_FULL[@]}" \
+  "${FLASH_CMD_FLASH[@]}" \
   --instance ${INTERFACE} \
   --cfg ${FLASH_XML} \
   --cmd "flash; write EBT cboot.tmp.encrypt; reboot"
