@@ -39,11 +39,8 @@ $(INSTALLED_BOOTIMAGE_TARGET): $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_FILES) $(BOOTIM
 	$(hide) cp $(dir $@)/signed_boot/boot.tmp.encrypt $@
 
 # Depend on boot.img to prevent tegraflash signing from running simultaneously
-$(INSTALLED_RECOVERYIMAGE_TARGET): $(MKBOOTIMG) $(recovery_ramdisk) $(recovery_kernel) \
-	$(RECOVERYIMAGE_EXTRA_DEPS) $(INSTALLED_BOOTIMAGE_TARGET)
-	@echo ----- Making recovery image ------
-	$(hide) $(MKBOOTIMG) $(INTERNAL_RECOVERYIMAGE_ARGS) $(INTERNAL_MKBOOTIMG_VERSION_ARGS) $(BOARD_MKBOOTIMG_ARGS) --output $(dir $@)/recovery.tmp --id > $(RECOVERYIMAGE_ID_FILE)
-	$(hide) $(call assert-max-image-size,$(dir $@)/recovery.tmp,$(BOARD_RECOVERYIMAGE_PARTITION_SIZE))
+$(INSTALLED_RECOVERYIMAGE_TARGET): $(recoveryimage-deps) $(RECOVERYIMAGE_EXTRA_DEPS) $(INSTALLED_BOOTIMAGE_TARGET)
+	$(call build-recoveryimage-target, $(dir $@)/recovery.tmp, $(recovery_kernel))
 	$(hide) cp $(dir $@)/$(DTB_PATH)/tegra210-p3448-0002-p3449-0000-*-android-devkit.dtb $(dir $@)/
 	$(hide) cd $(dir $@); PYTHONDONTWRITEBYTECODE=1 $(TEGRAFLASH_PATH)/tegraflash.py --chip 0x21 --applet $(T210_PATH)/nvtboot_recovery.bin --bct P3448_A00_lpddr4_204Mhz_P987.cfg --cfg $(abspath $(BCT_PATH))/signrecovery.xml --cmd "sign"
 	$(hide) mv $(dir $@)/signed $(dir $@)/signed_recovery
