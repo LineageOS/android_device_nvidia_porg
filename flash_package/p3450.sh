@@ -85,7 +85,7 @@ truncate -s 589824 cboot.tmp.encrypt
 declare -a FLASH_CMD_FLASH=(
   ${FLASH_CMD_EEPROM[@]}
   --bl cboot.tmp.encrypt
-  --odmdata 0x94000
+  --odmdata 0x94800
   --bct ${BCT_CFG}
   --bldtb temp.dtb.encrypt)
 

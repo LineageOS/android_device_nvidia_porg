@@ -48,7 +48,6 @@ $(_p3450_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_KERNEL_TARGE
 	@cp $(PORG_FLASH)/flash_android_t210_max-spi_sd_p3448.xml $(dir $@)/
 	@cp $(PORG_FLASH)/sign.xml $(dir $@)/
 	@cp $(T210_BL)/* $(dir $@)/
-	@cp $(PORG_BL)/nvtboot.bin $(dir $@)/
 	@cp $(INSTALLED_BMP_BLOB_TARGET) $(dir $@)/
 	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/
 	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/tegra210-p3448-*-p3449-0000-*-android-devkit.dtb $(dir $@)/
