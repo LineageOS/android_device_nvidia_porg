@@ -26,7 +26,7 @@ VENDOR_PART  = '/dev/block/by-name/vendor'
 PUBLIC_KEY_PATH     = '/sys/devices/7000f800.efuse/7000f800.efuse:efuse-burn/public_key'
 FUSED_PATH          = '/sys/devices/7000f800.efuse/7000f800.efuse:efuse-burn/odm_production_mode'
 
-JETSON_BL_VERSION   = '00.00.2018.01-t210-39562017'
+JETSON_BL_VERSION   = '00.00.2018.01-t210-c952b4e6'
 
 def FullOTA_PostValidate(info):
   if 'INSTALL/bin/resize2fs_static' in info.input_zip.namelist():
