@@ -2,5 +2,13 @@
  {
    "repository": "android_device_nvidia_foster",
    "target_path": "device/nvidia/foster"
+ },
+ {
+   "repository": "android_hardware_nvidia_platform_t210_batuu_kernel-dts",
+   "target_path": "hardware/nvidia/platform/t210/batuu/kernel-dts"
+ },
+ {
+   "repository": "android_hardware_nvidia_platform_t210_porg",
+   "target_path": "hardware/nvidia/platform/t210/porg"
  }
 ]
