@@ -41,6 +41,7 @@ $(_p3450_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_KERNEL_TARGE
 	@mkdir -p $(dir $@)/tegraflash
 	@mkdir -p $(dir $@)/scripts
 	@cp $(TEGRAFLASH_PATH)/tegra* $(dir $@)/tegraflash/
+	@cp -R $(TEGRAFLASH_PATH)/pyfdt $(dir $@)/tegraflash/
 	@rm $(dir $@)/tegraflash/*_v2
 	@cp $(COMMON_FLASH)/*.sh $(dir $@)/scripts/
 	@cp $(PORG_FLASH)/p3450.sh $(dir $@)/flash.sh
