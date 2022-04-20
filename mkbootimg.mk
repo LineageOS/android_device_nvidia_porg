@@ -29,10 +29,11 @@ endif
 
 DTB_PATH := obj/KERNEL_OBJ/arch/arm64/boot/dts$(DTB_SUBFOLDER)
 
+
 $(INSTALLED_BOOTIMAGE_TARGET): $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_FILES) $(BOOTIMAGE_EXTRA_DEPS) $(INSTALLED_KERNEL_TARGET)
 	$(call pretty,"Target boot image: $@")
-	$(hide) $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_ARGS) $(INTERNAL_MKBOOTIMG_VERSION_ARGS) $(BOARD_MKBOOTIMG_ARGS) --output $(dir $@)/boot.tmp
-	$(hide) $(call assert-max-image-size,$(dir $@)/boot.tmp,$(BOARD_BOOTIMAGE_PARTITION_SIZE))
+	$(hide) $(MKBOOTIMG) --kernel $(call bootimage-to-kernel,$@) $(INTERNAL_BOOTIMAGE_ARGS) $(INTERNAL_MKBOOTIMG_VERSION_ARGS) $(BOARD_MKBOOTIMG_ARGS) --output $(dir $@)/boot.tmp
+	$(hide )$(call assert-max-image-size,$(dir $@)/boot.tmp,$(call get-bootimage-partition-size,$@,boot))
 	$(hide) cp $(FOSTER_BCT)/P3448_A00_lpddr4_204Mhz_P987.cfg $(dir $@)/P3448_A00_lpddr4_204Mhz_P987.cfg
 	$(hide) cp $(dir $@)/$(DTB_PATH)/tegra210-p3448-0000-p3449-0000-*-android-devkit.dtb $(dir $@)/
 	$(hide) cd $(dir $@); PYTHONDONTWRITEBYTECODE=1 $(TEGRAFLASH_PATH)/tegraflash.py --chip 0x21 --applet $(T210_PATH)/nvtboot_recovery.bin --bct P3448_A00_lpddr4_204Mhz_P987.cfg --cfg $(abspath $(BCT_PATH))/signboot.xml --cmd "sign"
