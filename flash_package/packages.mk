@@ -54,12 +54,12 @@ $(_p3450_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_KERNEL_TARGE
 	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/tegra210-p3448-0003-p3542-0000-android.dtb $(dir $@)/
 	@cp $(FOSTER_BCT)/P3448_A00_lpddr4_204Mhz_P987.cfg $(dir $@)/
 	@echo "NV3" > $(dir $@)/emmc_bootblob_ver.txt
-	@echo "# R17 , REVISION: 1" >> $(dir $@)/emmc_bootblob_ver.txt
+	@echo "# R18 , REVISION: 1" >> $(dir $@)/emmc_bootblob_ver.txt
 	@echo "BOARDID=3448 BOARDSKU=0002 FAB=200" >> $(dir $@)/emmc_bootblob_ver.txt
 	@$(TOYBOX_HOST) date '+%Y%m%d%H%M%S' >> $(dir $@)/emmc_bootblob_ver.txt
 	@$(TOYBOX_HOST) cksum $(dir $@)/emmc_bootblob_ver.txt |$(AWK_HOST) '{ print "BYTES:" $$2, "CRC32:" $$1 }' >> $(dir $@)/emmc_bootblob_ver.txt
 	@echo "NV3" > $(dir $@)/qspi_bootblob_ver.txt
-	@echo "# R17 , REVISION: 1" >> $(dir $@)/qspi_bootblob_ver.txt
+	@echo "# R18 , REVISION: 1" >> $(dir $@)/qspi_bootblob_ver.txt
 	@echo "BOARDID=3448 BOARDSKU=0000 FAB=200" >> $(dir $@)/qspi_bootblob_ver.txt
 	@$(TOYBOX_HOST) date '+%Y%m%d%H%M%S' >> $(dir $@)/qspi_bootblob_ver.txt
 	@$(TOYBOX_HOST) cksum $(dir $@)/qspi_bootblob_ver.txt |$(AWK_HOST) '{ print "BYTES:" $$2, "CRC32:" $$1 }' >> $(dir $@)/qspi_bootblob_ver.txt
