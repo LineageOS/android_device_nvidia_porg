@@ -39,25 +39,6 @@
             <description> **Required.** Contains TegraBoot CPU-side binary. </description>
         </partition>
 
-        <partition name="RP1" type="data">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 1048576 </size>
-            <allocation_attribute> 8 </allocation_attribute>
-            <filename> temp.dtb.encrypt </filename>
-            <description> **Required.** Contains Bootloader DTB binary. </description>
-        </partition>
-
-        <partition name="EBT" type="bootloader">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 655360 </size>
-            <allocation_attribute> 8 </allocation_attribute>
-            <filename> cboot.bin </filename>
-            <description> **Required.** Contains CBoot, the final boot stage CPU bootloader binary
-              that loads the binary in kernel partition. </description>
-        </partition>
-
         <partition name="WB0" type="WB0">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
@@ -113,25 +94,6 @@
             <allocation_attribute> 8 </allocation_attribute>
             <filename> nvtboot_cpu.bin </filename>
             <description> **Required.** Contains a redundant copy of TegraBoot CPU-side binary. </description>
-        </partition>
-
-        <partition name="RP1-1" type="data">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 1048576 </size>
-            <allocation_attribute> 8 </allocation_attribute>
-            <filename> temp.dtb.encrypt </filename>
-            <description> **Required.** Contains a redundant copy of the Bootloader
-              DTB binary. </description>
-        </partition>
-
-        <partition name="EBT-1" type="bootloader">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 655360 </size>
-            <allocation_attribute> 8 </allocation_attribute>
-            <filename> cboot.bin </filename>
-            <description> **Required.** Contains a redundant copy of CBoot. </description>
         </partition>
 
         <partition name="WB0-1" type="WB0">
@@ -225,6 +187,25 @@
               `/dev/mmcblk0p1`. </description>
         </partition>
 
+        <partition name="RP1" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 1048576 </size>
+            <allocation_attribute> 8 </allocation_attribute>
+            <filename> temp.dtb.encrypt </filename>
+            <description> **Required.** Contains Bootloader DTB binary. </description>
+        </partition>
+
+        <partition name="EBT" type="bootloader">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 655360 </size>
+            <allocation_attribute> 8 </allocation_attribute>
+            <filename> cboot.bin </filename>
+            <description> **Required.** Contains CBoot, the final boot stage CPU bootloader binary
+              that loads the binary in kernel partition. </description>
+        </partition>
+
         <partition name="DTB" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>
@@ -259,6 +240,25 @@
             <filename> recovery.tmp.encrypt </filename>
             <description> **Required.** Contains U-Boot, which loads and launches the kernel from
               the rootfs at `/boot`. </description>
+        </partition>
+
+        <partition name="RP1-1" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 1048576 </size>
+            <allocation_attribute> 8 </allocation_attribute>
+            <filename> temp.dtb.encrypt </filename>
+            <description> **Required.** Contains a redundant copy of the Bootloader
+              DTB binary. </description>
+        </partition>
+
+        <partition name="EBT-1" type="bootloader">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 655360 </size>
+            <allocation_attribute> 8 </allocation_attribute>
+            <filename> cboot.bin </filename>
+            <description> **Required.** Contains a redundant copy of CBoot. </description>
         </partition>
 
         <partition name="DTB-1" type="data">
