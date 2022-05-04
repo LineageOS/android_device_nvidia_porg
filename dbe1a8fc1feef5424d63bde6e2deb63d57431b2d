@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff550995_1f2d86a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14048
+      },
+      "writtenOn": "2022-05-04T01:58:28Z",
+      "side": 1,
+      "message": "This cannot be tested, since the appropriate hardware is not available. But this does allow for reasonable bootloader updates should someone with the hardware want to use it.",
+      "revId": "dbe1a8fc1feef5424d63bde6e2deb63d57431b2d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
