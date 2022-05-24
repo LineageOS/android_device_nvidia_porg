@@ -23,7 +23,11 @@ TEGRAFLASH_PATH := $(BUILD_TOP)/vendor/nvidia/common/tegraflash
 T210_PATH       := $(BUILD_TOP)/vendor/nvidia/t210/bootloader
 FOSTER_BCT      := $(BUILD_TOP)/vendor/nvidia/foster/BCT
 
-DTB_PATH := obj/KERNEL_OBJ/arch/arm64/boot/dts
+ifneq ($(TARGET_TEGRA_KERNEL),4.9)
+DTB_SUBFOLDER := /nvidia
+endif
+
+DTB_PATH := obj/KERNEL_OBJ/arch/arm64/boot/dts$(DTB_SUBFOLDER)
 
 $(INSTALLED_BOOTIMAGE_TARGET): $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_FILES) $(BOOTIMAGE_EXTRA_DEPS)
 	$(call pretty,"Target boot image: $@")
