@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bbf7617_960960f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31706
+      },
+      "writtenOn": "2022-09-04T17:08:55Z",
+      "side": 1,
+      "message": "Hi. I did my first build of LineageOS for Jetson nano and it was successful, but when I tried to rebuild again (using \"brunch porg\") it did not work. The build system tried to recreate the flash package tarball when it already existed.\n\nThis fixes the problem by ensure the tarball is removed whenever the target is executed.",
+      "revId": "da0f2ccc0e24eb75e1e4b5027a768062bc330c20",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
