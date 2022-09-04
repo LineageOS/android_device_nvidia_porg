@@ -38,6 +38,7 @@ _p3450_package_intermediates := $(call intermediates-dir-for,$(LOCAL_MODULE_CLAS
 _p3450_package_archive := $(_p3450_package_intermediates)/$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
 
 $(_p3450_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(AWK_HOST) $(TOYBOX_HOST)
+	@rm -fv $(_p3450_package_archive)
 	@mkdir -p $(dir $@)/tegraflash
 	@mkdir -p $(dir $@)/scripts
 	@cp $(TEGRAFLASH_PATH)/tegra* $(dir $@)/tegraflash/
