@@ -53,6 +53,23 @@
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29b7368f_68fcc352",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14048
+      },
+      "writtenOn": "2022-09-10T20:57:25Z",
+      "side": 1,
+      "message": "Should be able to label the firmware like the bcm firmware is labelled in the main tegra policy repo, then the already existing rules should work. And not certain why lspci wouldn\u0027t just need access to the sysfs_pci_device nodes. But yes, I\u0027d put all the policy stuff into the common tegra part of the nvidia sepolicy repo.\n\nAnd no, the linux-firmware repo would not be added to the default manifest. It would be added to the foster or tegra-common lineage.dependencies, depending on where the module targets are added. I would probably add the targets in tegra-common, then install them from foster. To allow for flexibility to install them on galen for the xavier nx, for example. You can look at the realtek support in tegra-common and galen for a more clear reference example. Put linux-firmware in kernel/nvidia/linux-firmware, then have makefiles in tegra-common reference that. All of which pretty much eliminates any change to the porg repo.",
+      "revId": "cd38a5be39229d743a3415c6a7d9ef7f19707bf5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a38edb33_122ab4ae",
