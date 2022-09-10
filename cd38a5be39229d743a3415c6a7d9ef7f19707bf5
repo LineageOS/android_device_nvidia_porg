@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5f0469b_fac0d213",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31706
+      },
+      "writtenOn": "2022-09-10T15:26:40Z",
+      "side": 1,
+      "message": "This is the final change required to support intel 8265 on porg devices. It depends on changes I33d72d46acaa9b493a623dcb76bf8cadbe135471 and I3764973c388bf9c69adb1fd5e147582345e2edcd\n\nThe firmware files were extracted from jetson nano offical sdcard image. For now I only added the 8265 firmware since it is the only one I have to test.",
+      "revId": "cd38a5be39229d743a3415c6a7d9ef7f19707bf5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
