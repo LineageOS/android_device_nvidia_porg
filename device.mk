@@ -20,3 +20,6 @@ TARGET_TEGRA_BT ?= btlinux
 include device/nvidia/shield-common/shield.mk
 
 $(call inherit-product, device/nvidia/foster/device.mk)
+
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*,device/nvidia/porg/firmware,vendor/firmware)

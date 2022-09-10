@@ -28,3 +28,7 @@ BOARD_KERNEL_CMDLINE    += sdhci_tegra.en_boot_part_access=1
 
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := device/nvidia/porg/releasetools
+
+TARGET_KERNEL_ADDITIONAL_CONFIG := tegra_android_defconfig_extra
+
+BOARD_VENDOR_SEPOLICY_DIRS += device/nvidia/porg/sepolicy

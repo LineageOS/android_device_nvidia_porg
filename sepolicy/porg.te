@@ -1,0 +1,11 @@
+#============= kernel ==============
+# this silences -13 dmesg error when trying to load iwlwifi firmware
+allow kernel vendor_file:file { open read };
+allow kernel self:capability net_bind_service;
+
+#============= lkm_loader ==============
+# required for lkm_loader.sh to read lspci output
+allow lkm_loader sysfs:dir { open read };
+allow lkm_loader sysfs:file { open read };
+allow lkm_loader sysfs_pci_device:dir { open read };
+allow lkm_loader sysfs_pci_device:file { open read };
