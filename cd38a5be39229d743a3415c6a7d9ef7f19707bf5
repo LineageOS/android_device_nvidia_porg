@@ -33,6 +33,75 @@
       "message": "Couple things here. Don\u0027t think we can include the firmware directly here. Will have to do something like reference linux-firmware. I\u0027ve considered pulling that \nrepo for other reasons to. I\u0027m a bit busy atm, but I can look into that in a couple days. The other thing is that the policy should get added to device/nvidia/sepolicy directly. Normally I would want device specific stuff added to the device like this, but the lspci stuff will likely be too good for me to pass up using on other devices like xavier nx and such. So it\u0027ll be good to have in the vendor wide policy.",
       "revId": "cd38a5be39229d743a3415c6a7d9ef7f19707bf5",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a38edb33_122ab4ae",
+        "filename": "sepolicy/porg.te",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 25732
+      },
+      "writtenOn": "2022-09-10T15:47:21Z",
+      "side": 1,
+      "message": "Label the files it wants to access",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 24
+      },
+      "revId": "cd38a5be39229d743a3415c6a7d9ef7f19707bf5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56091bc0_25bd435d",
+        "filename": "sepolicy/porg.te",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 25732
+      },
+      "writtenOn": "2022-09-10T15:47:21Z",
+      "side": 1,
+      "message": "Label the nodes it wants to access",
+      "range": {
+        "startLine": 8,
+        "startChar": 17,
+        "endLine": 8,
+        "endChar": 22
+      },
+      "revId": "cd38a5be39229d743a3415c6a7d9ef7f19707bf5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "217617ff_07c7a4ed",
+        "filename": "sepolicy/porg.te",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 25732
+      },
+      "writtenOn": "2022-09-10T15:47:21Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "cd38a5be39229d743a3415c6a7d9ef7f19707bf5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
