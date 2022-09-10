@@ -16,6 +16,23 @@
       "message": "This is the final change required to support intel 8265 on porg devices. It depends on changes I33d72d46acaa9b493a623dcb76bf8cadbe135471 and I3764973c388bf9c69adb1fd5e147582345e2edcd\n\nThe firmware files were extracted from jetson nano offical sdcard image. For now I only added the 8265 firmware since it is the only one I have to test.",
       "revId": "cd38a5be39229d743a3415c6a7d9ef7f19707bf5",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "096ecc3c_d0bb09cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14048
+      },
+      "writtenOn": "2022-09-10T15:39:31Z",
+      "side": 1,
+      "message": "Couple things here. Don\u0027t think we can include the firmware directly here. Will have to do something like reference linux-firmware. I\u0027ve considered pulling that \nrepo for other reasons to. I\u0027m a bit busy atm, but I can look into that in a couple days. The other thing is that the policy should get added to device/nvidia/sepolicy directly. Normally I would want device specific stuff added to the device like this, but the lspci stuff will likely be too good for me to pass up using on other devices like xavier nx and such. So it\u0027ll be good to have in the vendor wide policy.",
+      "revId": "cd38a5be39229d743a3415c6a7d9ef7f19707bf5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
