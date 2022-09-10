@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "00ab47d4_848e070f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 31706
+      },
+      "writtenOn": "2022-09-10T21:50:56Z",
+      "side": 1,
+      "message": "\u003e And not certain why lspci wouldn\u0027t just need access to the sysfs_pci_device nodes. But yes\n\nNot sure about that either, but lspci fails if I remove the sysfs nodes\n\n\u003e But yes, I\u0027d put all the policy stuff into the common tegra part of the nvidia sepolicy repo.\n\nI\u0027ve put the lkm_loader rules in the already existing file on t210/common/vendor/lkm_loader.te, since that\u0027s where the lkm_loader type is defined. The read firmware rule I\u0027ve put on tegra/common/vendor/kernel.te\n\n\u003e And no, the linux-firmware repo would not be added to the default manifest. It would be added to the foster or tegra-common lineage.dependencies, depending on where the module targets are added. I would probably add the targets in tegra-common, then install them from foster. To allow for flexibility to install them on galen for the xavier nx, for example. You can look at the realtek support in tegra-common and galen for a more clear reference example. Put linux-firmware in kernel/nvidia/linux-firmware, then have makefiles in tegra-common reference that. All of which pretty much eliminates any change to the porg repo.\n\nI will give it a shot",
+      "parentUuid": "29b7368f_68fcc352",
+      "revId": "cd38a5be39229d743a3415c6a7d9ef7f19707bf5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a38edb33_122ab4ae",
         "filename": "sepolicy/porg.te",
         "patchSetId": 1
