@@ -39,7 +39,7 @@ FUSED_PATH          = '/sys/devices/7000f800.efuse/7000f800.efuse:efuse-burn/odm
 MODE_UNFUSED        = '0x00000000\n'
 MODE_FUSED          = '0x00000001\n'
 
-JETSON_BL_VERSION   = '00.00.2018.01-t210-a2f2e4b8'
+JETSON_BL_VERSION   = '00.00.2018.01-t210-c952b4e6'
 
 def FullOTA_PostValidate(info):
   if 'INSTALL/bin/resize2fs_static' in info.input_zip.namelist():
