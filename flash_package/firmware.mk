@@ -24,6 +24,7 @@ INSTALLED_KERNEL_TARGET := $(PRODUCT_OUT)/kernel
 TOYBOX_HOST := $(HOST_OUT_EXECUTABLES)/toybox
 
 INSTALLED_RECOVERYIMAGE_TARGET := $(PRODUCT_OUT)/recovery.img
+INSTALLED_TOS_TARGET           := $(PRODUCT_OUT)/tos-mon-only.img
 
 _p3450_package_intermediates := $(call intermediates-dir-for,ETC,p3450_flash_package)
 _p3450_package_archive       := $(_p3450_package_intermediates)/p3450_flash_package.txz
@@ -47,11 +48,13 @@ $(INSTALLED_BL_TARGETS): $(_porg_sd_br_bct) | $(ACP)
 	@mkdir -p $(PRODUCT_OUT)/install
 	cp $(@F:%=$(PORG_SD_SIGNED_PATH)/%.encrypt) $(PRODUCT_OUT)/install/$(notdir $@)
 
-$(_porg_sd_br_bct): $(INSTALLED_RECOVERYIMAGE_TARGET) $(TOYBOX_HOST) $(INSTALLED_KERNEL_TARGET) | $(ACP)
+$(_porg_sd_br_bct): $(INSTALLED_RECOVERYIMAGE_TARGET) $(TOYBOX_HOST) $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) | $(ACP)
 	@mkdir -p $(dir $@)
 	@cp $(PORG_FLASH)/flash_android_t210_max-spi_sd_p3448.xml $(dir $@)/flash_android_t210_max-spi_sd_p3448.xml.tmp
 	@cp $(FOSTER_BCT)/P3448_A00_lpddr4_204Mhz_P987.cfg $(dir $@)/
 	@cp $(T210_BL)/* $(dir $@)/
+	@rm $(dir $@)/tos-mon-only.img
+	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/
 	@cp $(PRODUCT_OUT)/install/tegra210-p3448-0003-p3542-0000-android.dtb $(dir $@)/temp.dtb.encrypt
 	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/recovery.tmp.encrypt
 	cd $(dir $@); $(TEGRAFLASH_PATH)/tegraparser --pt flash_android_t210_max-spi_sd_p3448.xml.tmp
@@ -105,11 +108,13 @@ _porg_emmc_blob := $(_porg_emmc_blob_intermediates)/$(LOCAL_MODULE)$(LOCAL_MODUL
 PORG_EMMC_SIGNED_PATH := $(_porg_emmc_blob_intermediates)
 _porg_emmc_br_bct     := $(PORG_EMMC_SIGNED_PATH)/br_bct_BR.bct
 
-$(_porg_emmc_br_bct): $(INSTALLED_RECOVERYIMAGE_TARGET) $(TOYBOX_HOST) $(INSTALLED_KERNEL_TARGET) $(_p3450_package_archive) | $(ACP)
+$(_porg_emmc_br_bct): $(INSTALLED_RECOVERYIMAGE_TARGET) $(TOYBOX_HOST) $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) $(_p3450_package_archive) | $(ACP)
 	@mkdir -p $(dir $@)
 	@cp $(PORG_FLASH)/flash_android_t210_emmc_p3448.xml $(dir $@)/flash_android_t210_emmc_p3448.xml.tmp
 	@cp $(FOSTER_BCT)/P3448_A00_lpddr4_204Mhz_P987.cfg $(dir $@)/
 	@cp $(T210_BL)/* $(dir $@)/
+	@rm $(dir $@)/tos-mon-only.img
+	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/
 	@cp $(PRODUCT_OUT)/install/tegra210-p3448-0000-p3449-0000-b00-android-devkit.dtb $(dir $@)/temp.dtb.encrypt
 	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/recovery.tmp.encrypt
 	@cp $(_p3450_package_intermediates)/emmc_bootblob_ver.txt $(dir $@)/
