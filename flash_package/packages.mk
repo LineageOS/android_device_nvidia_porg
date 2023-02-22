@@ -14,12 +14,12 @@
 
 LOCAL_PATH := $(call my-dir)
 
-TEGRAFLASH_PATH := $(BUILD_TOP)/vendor/nvidia/common/tegraflash
-T210_BL         := $(BUILD_TOP)/vendor/nvidia/t210/bootloader
-PORG_BL         := $(BUILD_TOP)/vendor/nvidia/porg/bootloader
-FOSTER_BCT      := $(BUILD_TOP)/vendor/nvidia/foster/BCT
-PORG_FLASH      := $(BUILD_TOP)/device/nvidia/porg/flash_package
-COMMON_FLASH    := $(BUILD_TOP)/device/nvidia/tegra-common/flash_package
+TEGRAFLASH_V1_PATH := $(BUILD_TOP)/vendor/nvidia/common/r32/tegraflash
+TEGRAFLASH_V2_PATH := $(BUILD_TOP)/vendor/nvidia/common/r35/tegraflash
+T210_BL            := $(BUILD_TOP)/vendor/nvidia/t210/r32/bootloader
+FOSTER_BCT         := $(BUILD_TOP)/vendor/nvidia/foster/r32/BCT
+PORG_FLASH         := $(BUILD_TOP)/device/nvidia/porg/flash_package
+COMMON_FLASH       := $(BUILD_TOP)/device/nvidia/tegra-common/flash_package
 
 INSTALLED_BMP_BLOB_TARGET      := $(PRODUCT_OUT)/bmp.blob
 INSTALLED_KERNEL_TARGET        := $(PRODUCT_OUT)/kernel
@@ -41,9 +41,10 @@ _p3450_package_archive := $(_p3450_package_intermediates)/$(LOCAL_MODULE)$(LOCAL
 $(_p3450_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(INSTALLED_TOS_TARGET) $(AWK_HOST) $(TOYBOX_HOST)
 	@mkdir -p $(dir $@)/tegraflash
 	@mkdir -p $(dir $@)/scripts
-	@cp $(TEGRAFLASH_PATH)/tegra* $(dir $@)/tegraflash/
-	@cp -R $(TEGRAFLASH_PATH)/pyfdt $(dir $@)/tegraflash/
+	@cp $(TEGRAFLASH_V2_PATH)/tegra* $(dir $@)/tegraflash/
+	@cp -R $(TEGRAFLASH_V2_PATH)/pyfdt $(dir $@)/tegraflash/
 	@rm $(dir $@)/tegraflash/*_v2
+	@cp $(TEGRAFLASH_V1_PATH)/tegra* $(dir $@)/tegraflash/
 	@cp $(COMMON_FLASH)/*.sh $(dir $@)/scripts/
 	@cp $(PORG_FLASH)/p3450.sh $(dir $@)/flash.sh
 	@cp $(PORG_FLASH)/flash_android_t210_emmc_p3448.xml $(dir $@)/
