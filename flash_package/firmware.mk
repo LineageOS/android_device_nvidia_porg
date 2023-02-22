@@ -16,6 +16,7 @@ LOCAL_PATH := $(call my-dir)
 
 TEGRAFLASH_PATH := $(BUILD_TOP)/vendor/nvidia/common/r32/tegraflash
 T210_BL         := $(BUILD_TOP)/vendor/nvidia/t210/r32/bootloader
+T210_3261_BL    := $(BUILD_TOP)/vendor/nvidia/t210/r32.6.1/bootloader
 FOSTER_BCT      := $(BUILD_TOP)/vendor/nvidia/foster/r32/BCT
 PORG_FLASH      := $(BUILD_TOP)/device/nvidia/porg/flash_package
 
@@ -53,6 +54,8 @@ $(_porg_sd_br_bct): $(INSTALLED_RECOVERYIMAGE_TARGET) $(TOYBOX_HOST) $(INSTALLED
 	@cp $(PORG_FLASH)/flash_android_t210_max-spi_sd_p3448.xml $(dir $@)/flash_android_t210_max-spi_sd_p3448.xml.tmp
 	@cp $(FOSTER_BCT)/P3448_A00_lpddr4_204Mhz_P987.cfg $(dir $@)/
 	@cp $(T210_BL)/* $(dir $@)/
+	@rm $(dir $@)/cboot.bin
+	@cp $(T210_3261_BL)/cboot.bin $(dir $@)/cboot.bin
 	@rm $(dir $@)/tos-mon-only.img
 	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/
 	@cp $(PRODUCT_OUT)/install/tegra210-p3448-0003-p3542-0000-android.dtb $(dir $@)/temp.dtb.encrypt
@@ -113,6 +116,8 @@ $(_porg_emmc_br_bct): $(INSTALLED_RECOVERYIMAGE_TARGET) $(TOYBOX_HOST) $(INSTALL
 	@cp $(PORG_FLASH)/flash_android_t210_emmc_p3448.xml $(dir $@)/flash_android_t210_emmc_p3448.xml.tmp
 	@cp $(FOSTER_BCT)/P3448_A00_lpddr4_204Mhz_P987.cfg $(dir $@)/
 	@cp $(T210_BL)/* $(dir $@)/
+	@rm $(dir $@)/cboot.bin
+	@cp $(T210_3261_BL)/cboot.bin $(dir $@)/cboot.bin
 	@rm $(dir $@)/tos-mon-only.img
 	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/
 	@cp $(PRODUCT_OUT)/install/tegra210-p3448-0000-p3449-0000-b00-android-devkit.dtb $(dir $@)/temp.dtb.encrypt

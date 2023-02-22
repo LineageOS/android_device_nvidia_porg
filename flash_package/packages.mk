@@ -17,6 +17,7 @@ LOCAL_PATH := $(call my-dir)
 TEGRAFLASH_V1_PATH := $(BUILD_TOP)/vendor/nvidia/common/r32/tegraflash
 TEGRAFLASH_V2_PATH := $(BUILD_TOP)/vendor/nvidia/common/r35/tegraflash
 T210_BL            := $(BUILD_TOP)/vendor/nvidia/t210/r32/bootloader
+T210_3261_BL       := $(BUILD_TOP)/vendor/nvidia/t210/r32.6.1/bootloader
 FOSTER_BCT         := $(BUILD_TOP)/vendor/nvidia/foster/r32/BCT
 PORG_FLASH         := $(BUILD_TOP)/device/nvidia/porg/flash_package
 COMMON_FLASH       := $(BUILD_TOP)/device/nvidia/tegra-common/flash_package
@@ -51,6 +52,8 @@ $(_p3450_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_KERNEL_TARGE
 	@cp $(PORG_FLASH)/flash_android_t210_max-spi_sd_p3448.xml $(dir $@)/
 	@cp $(PORG_FLASH)/sign.xml $(dir $@)/
 	@cp $(T210_BL)/* $(dir $@)/
+	@rm $(dir $@)/cboot.bin
+	@cp $(T210_3261_BL)/cboot.bin $(dir $@)/cboot.bin
 	@rm $(dir $@)/tos-mon-only.img
 	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/
 	@cp $(INSTALLED_BMP_BLOB_TARGET) $(dir $@)/
