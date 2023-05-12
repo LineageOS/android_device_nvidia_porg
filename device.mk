@@ -14,7 +14,8 @@
 # limitations under the License.
 #
 
-TARGET_TEGRA_BT ?= btlinux
+TARGET_TEGRA_BT     ?= btlinux
+TARGET_TEGRA_HEALTH ?= nobattery
 
 # Only include Shield apps for first party targets
 include device/nvidia/shield-common/shield.mk
