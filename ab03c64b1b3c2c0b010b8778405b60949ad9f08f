@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af58bf15_f6abe955",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14048
+      },
+      "writtenOn": "2023-05-12T02:36:06Z",
+      "side": 1,
+      "message": "Stops systemui crashes when trying to calculate battery percentage.",
+      "revId": "ab03c64b1b3c2c0b010b8778405b60949ad9f08f",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
