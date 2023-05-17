@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "700c5072_24f870bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14048
+      },
+      "writtenOn": "2023-05-17T21:51:21Z",
+      "side": 1,
+      "message": "This would be nice to have on 19.1 as well, but it\u0027s less easy to do without the vendor split I did for 20, so it\u0027ll have to just stay here.",
+      "revId": "475fec5eb8b1e691b28f1e6449a1060e34fdd02b",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
