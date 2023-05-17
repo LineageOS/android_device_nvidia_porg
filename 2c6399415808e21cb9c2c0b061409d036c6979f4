@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc29e8b9_8e95cad2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14048
+      },
+      "writtenOn": "2023-05-17T20:42:04Z",
+      "side": 1,
+      "message": "Unfortunately, there\u0027s no easy way around this. I\u0027m going to have to eat the bullet and force porg dev variant users to re-flash when going from 18.1 or below to 19.1 or newer.",
+      "revId": "2c6399415808e21cb9c2c0b061409d036c6979f4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
