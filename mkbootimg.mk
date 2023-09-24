@@ -19,7 +19,7 @@ LOCAL_PATH := $(call my-dir)
 BCT_PATH := $(LOCAL_PATH)/tegraflash
 
 # Relative to $PRODUCT_OUT
-TEGRAFLASH_PATH := $(BUILD_TOP)/vendor/nvidia/common/r32/tegraflash
+TEGRAFLASH_PATH := $(BUILD_TOP)/vendor/nvidia/t210/r32/tegraflash
 T210_PATH       := $(BUILD_TOP)/vendor/nvidia/t210/r32/bootloader
 FOSTER_BCT      := $(BUILD_TOP)/vendor/nvidia/foster/r32/BCT
 
