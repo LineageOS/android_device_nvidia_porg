@@ -192,7 +192,7 @@
             <filesystem_type> basic </filesystem_type>
             <size> 1048576 </size>
             <allocation_attribute> 8 </allocation_attribute>
-            <filename> temp.dtb.encrypt </filename>
+            <filename> bl.dtb.encrypt </filename>
             <description> **Required.** Contains Bootloader DTB binary. </description>
         </partition>
 
