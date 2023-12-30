@@ -4,24 +4,6 @@
 
 <partition_layout version="01.00.0000">
     <device type="spi" instance="0">
-        <partition name="DTB" type="data">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 3604480 </size>
-            <file_system_attribute> 0 </file_system_attribute>
-            <allocation_attribute> 8 </allocation_attribute>
-            <percent_reserved> 0 </percent_reserved>
-            <filename> tegra210-p3448-0002-p3449-0000-a02-android-devkit.dtb </filename>
-        </partition>
-        <partition name="RP1" type="data">
-            <allocation_policy> sequential </allocation_policy>
-            <filesystem_type> basic </filesystem_type>
-            <size> 3604480 </size>
-            <file_system_attribute> 0 </file_system_attribute>
-            <allocation_attribute> 8 </allocation_attribute>
-            <percent_reserved> 0 </percent_reserved>
-            <filename> tegra210-p3448-0002-p3449-0000-b00-android-devkit.dtb </filename>
-        </partition>
         <partition name="LNX" type="data">
             <allocation_policy> sequential </allocation_policy>
             <filesystem_type> basic </filesystem_type>

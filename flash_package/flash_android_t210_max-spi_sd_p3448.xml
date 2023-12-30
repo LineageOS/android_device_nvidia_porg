@@ -190,7 +190,7 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 0x8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
-            <filename> temp.dtb.encrypt </filename>
+            <filename> bl.dtb.encrypt </filename>
             <description> **Required.** Contains Bootloader DTB binary. </description>
         </partition>
 

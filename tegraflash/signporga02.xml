@@ -11,7 +11,7 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
-            <filename> tegra210-p3448-0003-p3542-0000.dtb </filename>
+            <filename> tegra210-p3448-0002-p3449-0000-a02.dtb </filename>
         </partition>
         <partition name="DTB" type="data">
             <allocation_policy> sequential </allocation_policy>
@@ -20,7 +20,7 @@
             <file_system_attribute> 0 </file_system_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
-            <filename> tegra210-p3448-0003-p3542-0000-android-devkit.dtb </filename>
+            <filename> tegra210-p3448-0002-p3449-0000-a02-android-devkit.dtb </filename>
         </partition>
     </device>
 </partition_layout>
