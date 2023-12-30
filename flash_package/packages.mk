@@ -18,6 +18,7 @@ TEGRAFLASH_PATH := $(BUILD_TOP)/vendor/nvidia/t210/r32/tegraflash
 T210_BL         := $(BUILD_TOP)/vendor/nvidia/t210/r32/bootloader
 T210_3261_BL    := $(BUILD_TOP)/vendor/nvidia/t210/r32.6.1/bootloader
 FOSTER_BCT      := $(BUILD_TOP)/vendor/nvidia/foster/r32/BCT
+JETSON_BL       := $(BUILD_TOP)/vendor/nvidia/foster/r32/bootloader
 PORG_FLASH      := $(BUILD_TOP)/device/nvidia/porg/flash_package
 COMMON_FLASH    := $(BUILD_TOP)/device/nvidia/tegra-common/flash_package
 
@@ -54,8 +55,9 @@ $(_p3450_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_KERNEL_TARGE
 	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/
 	@cp $(INSTALLED_BMP_BLOB_TARGET) $(dir $@)/
 	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/
+	@cp $(JETSON_BL)/porg/*.dtb $(dir $@)/
 	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/tegra210-p3448-*-p3449-0000-*-android-devkit.dtb $(dir $@)/
-	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/tegra210-p3448-0003-p3542-0000-android.dtb $(dir $@)/
+	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/tegra210-p3448-0003-p3542-0000-android-devkit.dtb $(dir $@)/
 	@cp $(FOSTER_BCT)/P3448_A00_lpddr4_204Mhz_P987.cfg $(dir $@)/
 	@echo "NV3" > $(dir $@)/emmc_bootblob_ver.txt
 	@echo "# R18 , REVISION: 1" >> $(dir $@)/emmc_bootblob_ver.txt
