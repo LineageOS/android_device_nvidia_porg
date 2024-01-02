@@ -30,6 +30,14 @@ INSTALLED_TOS_TARGET           := $(PRODUCT_OUT)/tos-mon-only.img
 TOYBOX_HOST  := $(HOST_OUT_EXECUTABLES)/toybox
 AWK_HOST     := $(HOST_OUT_EXECUTABLES)/one-true-awk
 
+ifeq ($(TARGET_TEGRA_KERNEL),4.9)
+DTB_PATH := $(abspath $(KERNEL_OUT)/arch/arm64/boot/dts/)
+else ifneq ($(findstring dtstree,$(TARGET_KERNEL_ADDITIONAL_FLAGS)),)
+DTB_PATH := $(abspath $(KERNEL_OUT)/../nv-oot/device-tree/platform/generic-dts/t21x/lineage/)
+else
+DTB_PATH := $(abspath $(KERNEL_OUT)/arch/arm64/boot/dts/nvidia/)
+endif
+
 include $(CLEAR_VARS)
 LOCAL_MODULE        := p3450_flash_package
 LOCAL_MODULE_SUFFIX := .txz
@@ -56,8 +64,8 @@ $(_p3450_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_KERNEL_TARGE
 	@cp $(INSTALLED_BMP_BLOB_TARGET) $(dir $@)/
 	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/
 	@cp $(JETSON_BL)/porg/*.dtb $(dir $@)/
-	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/tegra210-p3448-*-p3449-0000-*-android-devkit.dtb $(dir $@)/
-	@cp $(KERNEL_OUT)/arch/arm64/boot/dts/tegra210-p3448-0003-p3542-0000-android-devkit.dtb $(dir $@)/
+	@cp $(DTB_PATH)/tegra210-p3448-*-p3449-0000-*-android-devkit.dtb $(dir $@)/
+	@cp $(DTB_PATH)/tegra210-p3448-0003-p3542-0000-android-devkit.dtb $(dir $@)/
 	@cp $(FOSTER_BCT)/P3448_A00_lpddr4_204Mhz_P987.cfg $(dir $@)/
 	@echo "NV3" > $(dir $@)/emmc_bootblob_ver.txt
 	@echo "# R18 , REVISION: 1" >> $(dir $@)/emmc_bootblob_ver.txt
