@@ -23,6 +23,6 @@ $(call inherit-product, device/nvidia/porg/device.mk)
 # Set those variables here to overwrite the inherited values.
 PRODUCT_NAME := full_porg
 PRODUCT_DEVICE := porg
-PRODUCT_BRAND := nvidia
+PRODUCT_BRAND := NVIDIA
 PRODUCT_MANUFACTURER := NVIDIA
 PRODUCT_MODEL := Jetson Nano
