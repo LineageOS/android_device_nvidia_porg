@@ -15,3 +15,11 @@
 #
 
 -include device/nvidia/foster/AndroidBoard.mk
+
+BUILT_TARGET_FILES_ZIPROOT := $(call intermediates-dir-for,PACKAGING,target_files)/$(TARGET_PRODUCT)-target_files
+$(BUILT_TARGET_FILES_ZIPROOT).zip: $(BUILT_TARGET_FILES_ZIPROOT)/IMAGES/p3450_flash_package.txz
+
+$(BUILT_TARGET_FILES_ZIPROOT)/IMAGES/p3450_flash_package.txz: $(BUILT_TARGET_FILES_ZIPROOT).zip.list $(PRODUCT_OUT)/p3450_flash_package.txz
+	@mkdir -p $(dir $@)
+	@cp $(PRODUCT_OUT)/p3450_flash_package.txz $@
+	@echo $@ >> $(BUILT_TARGET_FILES_ZIPROOT).zip.list
