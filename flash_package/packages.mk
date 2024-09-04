@@ -30,7 +30,9 @@ INSTALLED_TOS_TARGET           := $(PRODUCT_OUT)/tos-$(if $(filter rel-shield-r 
 TOYBOX_HOST  := $(HOST_OUT_EXECUTABLES)/toybox
 AWK_HOST     := $(HOST_OUT_EXECUTABLES)/one-true-awk
 
-ifeq ($(TARGET_TEGRA_KERNEL),4.9)
+ifneq ($(TARGET_PREBUILT_KERNEL),)
+DTB_PATH := $(dir $(TARGET_PREBUILT_KERNEL))
+else ifeq ($(TARGET_TEGRA_KERNEL),4.9)
 DTB_PATH := $(abspath $(KERNEL_OUT)/arch/arm64/boot/dts/)
 else ifneq ($(findstring dtstree,$(TARGET_KERNEL_ADDITIONAL_FLAGS)),)
 DTB_PATH := $(abspath $(KERNEL_OUT)/../lineage-oot/device-tree/platform/generic-dts/t21x/lineage/)

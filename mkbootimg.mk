@@ -24,7 +24,9 @@ T210_PATH       := $(BUILD_TOP)/vendor/nvidia/t210/r32/bootloader
 FOSTER_BCT      := $(BUILD_TOP)/vendor/nvidia/foster/r32/BCT
 JETSON_BL       := $(BUILD_TOP)/vendor/nvidia/foster/r32/bootloader
 
-ifeq ($(TARGET_TEGRA_KERNEL),4.9)
+ifneq ($(TARGET_PREBUILT_KERNEL),)
+DTB_PATH := $(dir $(TARGET_PREBUILT_KERNEL))
+else ifeq ($(TARGET_TEGRA_KERNEL),4.9)
 DTB_PATH := $(abspath $(KERNEL_OUT)/arch/arm64/boot/dts/)
 else ifneq ($(findstring dtstree,$(TARGET_KERNEL_ADDITIONAL_FLAGS)),)
 DTB_PATH := $(abspath $(KERNEL_OUT)/../lineage-oot/device-tree/platform/generic-dts/t21x/lineage/)

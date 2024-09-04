@@ -182,8 +182,6 @@ $(_porg_emmc_blob2): $(TOYBOX_HOST) $(_p3450_package_archive) | $(ACP)
 
 include $(BUILD_SYSTEM)/base_rules.mk
 
-ifeq ($(TARGET_PREBUILT_KERNEL),)
 INSTALLED_RADIOIMAGE_TARGET += $(PRODUCT_OUT)/$(notdir $(_porg_sd_blob))
 INSTALLED_RADIOIMAGE_TARGET += $(PRODUCT_OUT)/$(notdir $(_porg_emmc_blob))
 INSTALLED_RADIOIMAGE_TARGET += $(PRODUCT_OUT)/$(notdir $(_porg_emmc_blob2))
-endif
