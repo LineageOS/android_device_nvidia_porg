@@ -42,8 +42,8 @@ JETSON_BL_VERSION   = '00.00.2018.01-t210-c952b4e6'
 
 def FullOTA_PostValidate(info):
   if 'INSTALL/bin/resize2fs_static' in info.input_zip.namelist():
-    info.script.AppendExtra('run_program("/tmp/install/bin/resize2fs_static", "' + APP_PART + '");')
-    info.script.AppendExtra('run_program("/tmp/install/bin/resize2fs_static", "' + VENDOR_PART + '");')
+    info.script.AppendExtra(f'run_program("/tmp/install/bin/resize2fs_static", "{APP_PART}");')
+    info.script.AppendExtra(f'run_program("/tmp/install/bin/resize2fs_static", "{VENDOR_PART}");')
 
 def FullOTA_Assertions(info):
   if 'RADIO/porg_sd.mtd' in info.input_zip.namelist():
@@ -63,99 +63,92 @@ def CopyBlobs(input_zip, output_zip):
       common.ZipWriteStr(output_zip, "firmware-update/" + fn, input_zip.read(f))
 
 def AddBootloaderAssertion(info, input_zip):
-  info.script.AppendExtra('ifelse(')
-  info.script.AppendExtra('  getprop("ro.hardware") == "porg" || getprop("ro.hardware") == "porg_sd" || getprop("ro.hardware") == "batuu",')
-  info.script.AppendExtra('  (')
-  info.script.AppendExtra('    ifelse(')
-  info.script.AppendExtra('      tegra_check_cboot_version("' + JETSON_BL_VERSION + '"),')
-  info.script.AppendExtra('      (')
-  info.script.AppendExtra('        ui_print("Correct bootloader already installed for fused " + getprop(ro.hardware));')
-  info.script.AppendExtra('      ),')
-  info.script.AppendExtra('      (')
-  info.script.AppendExtra('        ui_print("Incorrect bootloader detected, but cannot update to correct version.");')
-  info.script.AppendExtra('        abort();')
-  info.script.AppendExtra('      )')
-  info.script.AppendExtra('    );')
-  info.script.AppendExtra('    package_extract_file("install/" + tegra_get_dtbname(), "' + DTB_PART + '");')
-  info.script.AppendExtra('  )')
-  info.script.AppendExtra(');')
+  info.script.AppendExtra(f'''
+ifelse(
+  getprop("ro.hardware") == "porg" || getprop("ro.hardware") == "porg_sd" || getprop("ro.hardware") == "batuu",
+  (
+    ifelse(
+      tegra_check_cboot_version("{JETSON_BL_VERSION}"),
+      (
+        ui_print("Correct bootloader already installed for fused " + getprop(ro.hardware));
+      ),
+      (
+        ui_print("Incorrect bootloader detected, but cannot update to correct version.");
+        abort();
+      )
+    );
+    package_extract_file("install/" + tegra_get_dtbname(), "{DTB_PART}");
+  )
+);
+''')
 
 def AddBootloaderFlash(info, input_zip):
-  """ If device is fused """
-  info.script.AppendExtra('ifelse(')
-  info.script.AppendExtra('  read_file("' + FUSED_PATH + '") == "' + MODE_FUSED + '",')
-  info.script.AppendExtra('  (')
-
-  """ Fused porg """
-  info.script.AppendExtra('    ifelse(')
-  info.script.AppendExtra('      getprop("ro.hardware") == "porg" || getprop("ro.hardware") == "porg_sd" || getprop("ro.hardware") == "batuu",')
-  info.script.AppendExtra('      (')
-  info.script.AppendExtra('        ifelse(')
-  info.script.AppendExtra('          tegra_check_cboot_version("' + JETSON_BL_VERSION + '"),')
-  info.script.AppendExtra('          (')
-  info.script.AppendExtra('            ui_print("Correct bootloader already installed for fused " + getprop(ro.hardware));')
-  info.script.AppendExtra('          ),')
-  info.script.AppendExtra('          (')
-  info.script.AppendExtra('            ui_print("Incorrect bootloader detected, but cannot update to correct version.");')
-  info.script.AppendExtra('            abort();')
-  info.script.AppendExtra('          )')
-  info.script.AppendExtra('        );')
-  info.script.AppendExtra('        package_extract_file("install/" + tegra_get_dtbname(), "' + DTB_PART + '");')
-  info.script.AppendExtra('      )')
-  info.script.AppendExtra('    );')
-
-  info.script.AppendExtra('  ),')
-
-  """ If not fused """
-  info.script.AppendExtra('  (')
-
-  """ Unfused porg_sd/batuu """
-  info.script.AppendExtra('    ifelse(')
-  info.script.AppendExtra('      getprop("ro.hardware") == "porg_sd" || getprop("ro.hardware") == "batuu",')
-  info.script.AppendExtra('      (')
-  info.script.AppendExtra('        ifelse(')
-  info.script.AppendExtra('          tegra_check_cboot_version("' + JETSON_BL_VERSION + '"),')
-  info.script.AppendExtra('          (')
-  info.script.AppendExtra('            ui_print("Correct bootloader already installed for unfused " + getprop(ro.hardware));')
-  info.script.AppendExtra('          ),')
-  info.script.AppendExtra('          (')
-  info.script.AppendExtra('            ui_print("Flashing updated bootloader for unfused " + getprop(ro.hardware));')
-  info.script.AppendExtra('            package_extract_file("firmware-update/porg_sd.mtd", "' + MTD_PART + '");')
-  info.script.AppendExtra('            package_extract_file("install/" + tegra_get_dtbname(), "' + RP1_PART + '");')
-  info.script.AppendExtra('            package_extract_file("install/cboot.bin", "' + EBT_PART + '");')
-  info.script.AppendExtra('            package_extract_file("install/tos.img", "' + TOS_PART + '");')
-  info.script.AppendExtra('          )')
-  info.script.AppendExtra('        );')
-  info.script.AppendExtra('        package_extract_file("install/" + tegra_get_dtbname(), "' + DTB_PART + '");')
-  info.script.AppendExtra('      )')
-  info.script.AppendExtra('    );')
-
-  """ Unfused porg """
-  info.script.AppendExtra('    ifelse(')
-  info.script.AppendExtra('      getprop("ro.hardware") == "porg",')
-  info.script.AppendExtra('      (')
-  info.script.AppendExtra('        ifelse(')
-  info.script.AppendExtra('          tegra_check_cboot_version("' + JETSON_BL_VERSION + '"),')
-  info.script.AppendExtra('          (')
-  info.script.AppendExtra('            ui_print("Correct bootloader already installed for unfused " + getprop(ro.hardware));')
-  info.script.AppendExtra('          ),')
-  info.script.AppendExtra('          (')
-  info.script.AppendExtra('            ui_print("Flashing updated bootloader for unfused " + getprop(ro.hardware));')
-  info.script.AppendExtra('            package_extract_file("firmware-update/porg_emmc.boot0", "' + BOOT0_PART + '");')
-  info.script.AppendExtra('            package_extract_file("firmware-update/porg_emmc.boot1", "' + BOOT1_PART + '");')
-  info.script.AppendExtra('            package_extract_file("install/" + tegra_get_dtbname(), "' + RP1_PART + '");')
-  info.script.AppendExtra('            package_extract_file("install/" + tegra_get_dtbname(), "' + RP1_BAK_PART + '");')
-  info.script.AppendExtra('            package_extract_file("install/cboot.bin", "' + EBT_PART + '");')
-  info.script.AppendExtra('            package_extract_file("install/cboot.bin", "' + EBT_BAK_PART + '");')
-  info.script.AppendExtra('            package_extract_file("install/tos.img", "' + TOS_PART + '");')
-  info.script.AppendExtra('            package_extract_file("install/tos.img", "' + TOS_BAK_PART + '");')
-  info.script.AppendExtra('            abort();')
-  info.script.AppendExtra('          )')
-  info.script.AppendExtra('        );')
-  info.script.AppendExtra('        package_extract_file("install/" + tegra_get_dtbname(), "' + DTB_PART + '");')
-  info.script.AppendExtra('        package_extract_file("install/" + tegra_get_dtbname(), "' + DTB_BAK_PART + '");')
-  info.script.AppendExtra('      )')
-  info.script.AppendExtra('    );')
-
-  info.script.AppendExtra('  )')
-  info.script.AppendExtra(');')
+  info.script.AppendExtra(f'''
+ifelse(
+  read_file("{FUSED_PATH}") == "{MODE_FUSED}",
+  (
+    ifelse(
+      getprop("ro.hardware") == "porg" || getprop("ro.hardware") == "porg_sd" || getprop("ro.hardware") == "batuu",
+      (
+        ifelse(
+          tegra_check_cboot_version("{JETSON_BL_VERSION)",
+          (
+            ui_print("Correct bootloader already installed for fused " + getprop(ro.hardware));
+          ),
+          (
+            ui_print("Incorrect bootloader detected, but cannot update to correct version.");
+            abort();
+          )
+        );
+        package_extract_file("install/" + tegra_get_dtbname(), "{DTB_PART}");
+      )
+    );
+  ),
+  (
+    ifelse(
+      getprop("ro.hardware") == "porg_sd" || getprop("ro.hardware") == "batuu",
+      (
+        ifelse(
+          tegra_check_cboot_version("{JETSON_BL_VERSION}"),
+          (
+            ui_print("Correct bootloader already installed for unfused " + getprop(ro.hardware));
+          ),
+          (
+            ui_print("Flashing updated bootloader for unfused " + getprop(ro.hardware));
+            package_extract_file("firmware-update/porg_sd.mtd", "{MTD_PART}");
+            package_extract_file("install/" + tegra_get_dtbname(), "{RP1_PART}");
+            package_extract_file("install/cboot.bin", "{EBT_PART}");
+            package_extract_file("install/tos.img", "{TOS_PART}");
+          )
+        );
+        package_extract_file("install/" + tegra_get_dtbname(), "{DTB_PART}");
+      )
+    );
+    ifelse(
+      getprop("ro.hardware") == "porg",
+      (
+        ifelse(
+          tegra_check_cboot_version("{JETSON_BL_VERSION}"),
+          (
+            ui_print("Correct bootloader already installed for unfused " + getprop(ro.hardware));
+          ),
+          (
+            ui_print("Flashing updated bootloader for unfused " + getprop(ro.hardware));
+            package_extract_file("firmware-update/porg_emmc.boot0", "{BOOT0_PART}");
+            package_extract_file("firmware-update/porg_emmc.boot1", "{BOOT1_PART}");
+            package_extract_file("install/" + tegra_get_dtbname(), "{RP1_PART}");
+            package_extract_file("install/" + tegra_get_dtbname(), "{RP1_BAK_PART}");
+            package_extract_file("install/cboot.bin", "{EBT_PART}");
+            package_extract_file("install/cboot.bin", "{EBT_BAK_PART}");
+            package_extract_file("install/tos.img", "{TOS_PART}");
+            package_extract_file("install/tos.img", "{TOS_BAK_PART}");
+            abort();
+          )
+        );
+        package_extract_file("install/" + tegra_get_dtbname(), "{DTB_PART}");
+        package_extract_file("install/" + tegra_get_dtbname(), "{DTB_BAK_PART}");
+      )
+    );
+  )
+);
+''')
