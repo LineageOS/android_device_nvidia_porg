@@ -17,7 +17,6 @@
 
 import common
 import re
-import os
 
 APP_PART     = '/dev/block/by-name/APP'
 BOOT0_PART   = '/dev/block/mmcblk0boot0'
