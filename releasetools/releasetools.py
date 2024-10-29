@@ -42,8 +42,8 @@ JETSON_BL_VERSION   = '00.00.2018.01-t210-c952b4e6'
 
 def FullOTA_PostValidate(info):
   if 'INSTALL/bin/resize2fs_static' in info.input_zip.namelist():
-    info.script.AppendExtra('run_program("/tmp/install/bin/resize2fs_static", "' + APP_PART + '");');
-    info.script.AppendExtra('run_program("/tmp/install/bin/resize2fs_static", "' + VENDOR_PART + '");');
+    info.script.AppendExtra('run_program("/tmp/install/bin/resize2fs_static", "' + APP_PART + '");')
+    info.script.AppendExtra('run_program("/tmp/install/bin/resize2fs_static", "' + VENDOR_PART + '");')
 
 def FullOTA_Assertions(info):
   if 'RADIO/porg_sd.mtd' in info.input_zip.namelist():
