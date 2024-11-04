@@ -202,7 +202,7 @@
             <partition_attribute> 0 </partition_attribute>
             <allocation_attribute> 8 </allocation_attribute>
             <percent_reserved> 0 </percent_reserved>
-            <filename> tos-mon-only.img </filename>
+            <filename> tos.img </filename>
             <description> **Required.** Contains TOS binary. </description>
         </partition>
 

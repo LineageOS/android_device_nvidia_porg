@@ -25,7 +25,7 @@ INSTALLED_KERNEL_TARGET := $(PRODUCT_OUT)/kernel
 TOYBOX_HOST := $(HOST_OUT_EXECUTABLES)/toybox
 
 INSTALLED_RECOVERYIMAGE_TARGET := $(PRODUCT_OUT)/recovery.img
-INSTALLED_TOS_TARGET           := $(PRODUCT_OUT)/tos-mon-only.img
+INSTALLED_TOS_TARGET           := $(PRODUCT_OUT)/tos-$(if $(filter rel-shield-r software,$(TARGET_TEGRA_TOS)),mon-only,$(TARGET_TEGRA_TOS)).img
 
 _p3450_package_intermediates := $(call intermediates-dir-for,ETC,p3450_flash_package)
 _p3450_package_archive       := $(_p3450_package_intermediates)/p3450_flash_package.txz
@@ -43,7 +43,7 @@ _porg_sd_br_bct     := $(PORG_SD_SIGNED_PATH)/br_bct_BR.bct
 
 BL_TARGETS := \
     cboot.bin \
-    tos-mon-only.img
+    tos.img
 INSTALLED_BL_TARGETS := $(BL_TARGETS:%=$(PRODUCT_OUT)/install/%)
 $(INSTALLED_BL_TARGETS): $(_porg_sd_br_bct) | $(ACP)
 	@mkdir -p $(PRODUCT_OUT)/install
@@ -57,7 +57,7 @@ $(_porg_sd_br_bct): $(INSTALLED_RECOVERYIMAGE_TARGET) $(TOYBOX_HOST) $(INSTALLED
 	@rm $(dir $@)/cboot.bin
 	@cp $(T210_3261_BL)/cboot.bin $(dir $@)/cboot.bin
 	@rm $(dir $@)/tos-mon-only.img
-	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/
+	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/tos.img
 	@cp $(PRODUCT_OUT)/install/tegra210-p3448-0003-p3542-0000.dtb $(dir $@)/bl.dtb.encrypt
 	@cp $(PRODUCT_OUT)/install/tegra210-p3448-0003-p3542-0000-android-devkit.dtb $(dir $@)/temp.dtb.encrypt
 	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/recovery.tmp.encrypt
@@ -120,7 +120,7 @@ $(_porg_emmc_br_bct): $(INSTALLED_RECOVERYIMAGE_TARGET) $(TOYBOX_HOST) $(INSTALL
 	@rm $(dir $@)/cboot.bin
 	@cp $(T210_3261_BL)/cboot.bin $(dir $@)/cboot.bin
 	@rm $(dir $@)/tos-mon-only.img
-	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/
+	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/tos.img
 	@cp $(PRODUCT_OUT)/install/tegra210-p3448-0000-p3449-0000-b00.dtb $(dir $@)/bl.dtb.encrypt
 	@cp $(PRODUCT_OUT)/install/tegra210-p3448-0000-p3449-0000-b00-android-devkit.dtb $(dir $@)/temp.dtb.encrypt
 	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/recovery.tmp.encrypt
