@@ -1,4 +1,4 @@
-# Copyright (C) 2021 The LineageOS Project
+# Copyright (C) 2021-2024 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,8 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LOCAL_PATH := $(call my-dir)
-
+ifneq ($(filter $(TARGET_DEVICE), porg porg_tab),)
 TEGRAFLASH_PATH := $(BUILD_TOP)/vendor/nvidia/t210/r32/tegraflash
 T210_BL         := $(BUILD_TOP)/vendor/nvidia/t210/r32/bootloader
 T210_3261_BL    := $(BUILD_TOP)/vendor/nvidia/t210/r32.6.1/bootloader
@@ -40,14 +39,7 @@ else
 DTB_PATH := $(abspath $(KERNEL_OUT)/arch/arm64/boot/dts/nvidia/)
 endif
 
-include $(CLEAR_VARS)
-LOCAL_MODULE        := p3450_flash_package
-LOCAL_MODULE_SUFFIX := .txz
-LOCAL_MODULE_CLASS  := ETC
-LOCAL_MODULE_PATH   := $(PRODUCT_OUT)
-
-_p3450_package_intermediates := $(call intermediates-dir-for,$(LOCAL_MODULE_CLASS),$(LOCAL_MODULE))
-_p3450_package_archive := $(_p3450_package_intermediates)/$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
+_p3450_package_archive := $(call intermediates-dir-for,ETC,p3450_flash_package)/p3450_flash_package.txz
 
 $(_p3450_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_KERNEL_TARGET) $(INSTALLED_RECOVERYIMAGE_TARGET) $(INSTALLED_TOS_TARGET) $(AWK_HOST) $(TOYBOX_HOST)
 	@mkdir -p $(dir $@)/tegraflash
@@ -81,4 +73,18 @@ $(_p3450_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_KERNEL_TARGE
 	@$(TOYBOX_HOST) cksum $(dir $@)/qspi_bootblob_ver.txt |$(AWK_HOST) '{ print "BYTES:" $$2, "CRC32:" $$1 }' >> $(dir $@)/qspi_bootblob_ver.txt
 	@cd $(dir $@); tar -cJf $(abspath $@) *
 
-include $(BUILD_SYSTEM)/base_rules.mk
+$(PRODUCT_OUT)/p3450_flash_package.txz: $(_p3450_package_archive)
+	$(hide) cp $< $@
+
+.PHONY: p3450_flash_package
+p3450_flash_package: $(PRODUCT_OUT)/p3450_flash_package.txz
+
+
+BUILT_TARGET_FILES_ZIPROOT := $(call intermediates-dir-for,PACKAGING,target_files)/$(TARGET_PRODUCT)-target_files
+$(BUILT_TARGET_FILES_ZIPROOT).zip: $(BUILT_TARGET_FILES_ZIPROOT)/IMAGES/p3450_flash_package.txz
+
+$(BUILT_TARGET_FILES_ZIPROOT)/IMAGES/p3450_flash_package.txz: $(BUILT_TARGET_FILES_ZIPROOT).zip.list $(PRODUCT_OUT)/p3450_flash_package.txz
+	@mkdir -p $(dir $@)
+	@cp $(PRODUCT_OUT)/p3450_flash_package.txz $@
+	@echo $@ >> $(BUILT_TARGET_FILES_ZIPROOT).zip.list
+endif

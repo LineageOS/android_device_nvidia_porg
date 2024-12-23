@@ -1,4 +1,4 @@
-# Copyright (C) 2021 The LineageOS Project
+# Copyright (C) 2021-2024 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,8 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LOCAL_PATH := $(call my-dir)
-
+ifneq ($(filter $(TARGET_DEVICE), porg porg_tab),)
 TEGRAFLASH_PATH := $(BUILD_TOP)/vendor/nvidia/t210/r32/tegraflash
 T210_BL         := $(BUILD_TOP)/vendor/nvidia/t210/r32/bootloader
 T210_3261_BL    := $(BUILD_TOP)/vendor/nvidia/t210/r32.6.1/bootloader
@@ -30,16 +29,11 @@ INSTALLED_TOS_TARGET           := $(PRODUCT_OUT)/tos-$(if $(filter rel-shield-r 
 _p3450_package_intermediates := $(call intermediates-dir-for,ETC,p3450_flash_package)
 _p3450_package_archive       := $(_p3450_package_intermediates)/p3450_flash_package.txz
 
-include $(CLEAR_VARS)
-LOCAL_MODULE       := porg_sd.mtd
-LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH  := $(PRODUCT_OUT)
-
-_porg_sd_blob_intermediates := $(call intermediates-dir-for,$(LOCAL_MODULE_CLASS),$(LOCAL_MODULE))
-_porg_sd_blob := $(_porg_sd_blob_intermediates)/$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
+_porg_sd_blob_intermediates := $(call intermediates-dir-for,ETC,porg_sd.mtd)
+_porg_sd_blob := $(_porg_sd_blob_intermediates)/porg_sd.mtd
 
 PORG_SD_SIGNED_PATH := $(_porg_sd_blob_intermediates)
-_porg_sd_br_bct     := $(PORG_SD_SIGNED_PATH)/br_bct_BR.bct
+_porg_sd_br_bct     := $(PORG_SD_SIGNED_PATH)/P3448_A00_lpddr4_204Mhz_P987.bct
 
 BL_TARGETS := \
     cboot.bin \
@@ -99,18 +93,17 @@ $(_porg_sd_blob): $(_porg_sd_br_bct) $(INSTALLED_KERNEL_TARGET) $(TOYBOX_HOST) $
 	@dd if=$(_p3450_package_intermediates)/qspi_bootblob_ver.txt of=$@ bs=512 seek=8064 conv=notrunc
 	@truncate -s 589824 $(PRODUCT_OUT)/install/cboot.bin
 
-include $(BUILD_SYSTEM)/base_rules.mk
+$(PRODUCT_OUT)/porg_sd.blob: $(_porg_sd_blob)
+	$(hide) cp $< $@
 
-include $(CLEAR_VARS)
-LOCAL_MODULE       := porg_emmc.boot0
-LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH  := $(PRODUCT_OUT)
+.PHONY: porg_sd.blob
+porg_sd.blob: $(PRODUCT_OUT)/porg_sd.blob
 
-_porg_emmc_blob_intermediates := $(call intermediates-dir-for,$(LOCAL_MODULE_CLASS),$(LOCAL_MODULE))
-_porg_emmc_blob := $(_porg_emmc_blob_intermediates)/$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
+_porg_emmc_blob_intermediates := $(call intermediates-dir-for,ETC,porg_emmc.boot0)
+_porg_emmc_blob := $(_porg_emmc_blob_intermediates)/porg_emmc.boot0
 
 PORG_EMMC_SIGNED_PATH := $(_porg_emmc_blob_intermediates)
-_porg_emmc_br_bct     := $(PORG_EMMC_SIGNED_PATH)/br_bct_BR.bct
+_porg_emmc_br_bct     := $(PORG_EMMC_SIGNED_PATH)/P3448_A00_lpddr4_204Mhz_P987.bct
 
 $(_porg_emmc_br_bct): $(INSTALLED_RECOVERYIMAGE_TARGET) $(TOYBOX_HOST) $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) $(_p3450_package_archive) | $(ACP)
 	@mkdir -p $(dir $@)
@@ -164,15 +157,14 @@ $(_porg_emmc_blob): $(_porg_emmc_br_bct) $(INSTALLED_KERNEL_TARGET) $(TOYBOX_HOS
 	@dd if=$(PORG_EMMC_SIGNED_PATH)/sc7entry-firmware.bin of=$@ bs=512 seek=6272 conv=notrunc
 	@truncate -s 589824 $(PRODUCT_OUT)/install/cboot.bin
 
-include $(BUILD_SYSTEM)/base_rules.mk
+$(PRODUCT_OUT)/porg_emmc.blob: $(_porg_emmc_blob)
+	$(hide) cp $< $@
 
-include $(CLEAR_VARS)
-LOCAL_MODULE       := porg_emmc.boot1
-LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE_PATH  := $(PRODUCT_OUT)
+.PHONY: porg_emmc.blob
+porg_emmc.blob: $(PRODUCT_OUT)/porg_emmc.blob
 
-_porg_emmc_blob2_intermediates := $(call intermediates-dir-for,$(LOCAL_MODULE_CLASS),$(LOCAL_MODULE))
-_porg_emmc_blob2 := $(_porg_emmc_blob2_intermediates)/$(LOCAL_MODULE)$(LOCAL_MODULE_SUFFIX)
+_porg_emmc_blob2_intermediates := $(call intermediates-dir-for,ETC,porg_emmc.boot1)
+_porg_emmc_blob2 := $(_porg_emmc_blob2_intermediates)/porg_emmc.boot1
 
 $(_porg_emmc_blob2): $(TOYBOX_HOST) $(_p3450_package_archive) | $(ACP)
 	@mkdir -p $(dir $@)
@@ -180,8 +172,17 @@ $(_porg_emmc_blob2): $(TOYBOX_HOST) $(_p3450_package_archive) | $(ACP)
 	@dd if=$(_p3450_package_intermediates)/emmc_bootblob_ver.txt of=$@ bs=512 seek=7936 conv=notrunc
 	@dd if=$(_p3450_package_intermediates)/emmc_bootblob_ver.txt of=$@ bs=512 seek=8064 conv=notrunc
 
-include $(BUILD_SYSTEM)/base_rules.mk
+$(PRODUCT_OUT)/porg_emmc.blob2: $(_porg_emmc_blob2)
+	$(hide) cp $< $@
 
-INSTALLED_RADIOIMAGE_TARGET += $(PRODUCT_OUT)/$(notdir $(_porg_sd_blob))
-INSTALLED_RADIOIMAGE_TARGET += $(PRODUCT_OUT)/$(notdir $(_porg_emmc_blob))
-INSTALLED_RADIOIMAGE_TARGET += $(PRODUCT_OUT)/$(notdir $(_porg_emmc_blob2))
+.PHONY: porg_emmc.blob2
+porg_emmc.blob2: $(PRODUCT_OUT)/porg_emmc.blob2
+
+INSTALLED_RADIOIMAGE_TARGET += $(_porg_sd_blob)
+INSTALLED_RADIOIMAGE_TARGET += $(_porg_emmc_blob)
+INSTALLED_RADIOIMAGE_TARGET += $(_porg_emmc_blob2)
+
+$(call intermediates-dir-for,PACKAGING,target_files)/$(TARGET_PRODUCT)-target_files.zip.list: $(_porg_sd_blob)
+$(call intermediates-dir-for,PACKAGING,target_files)/$(TARGET_PRODUCT)-target_files.zip.list: $(_porg_emmc_blob)
+$(call intermediates-dir-for,PACKAGING,target_files)/$(TARGET_PRODUCT)-target_files.zip.list: $(_porg_emmc_blob2)
+endif

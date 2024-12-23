@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2020 The LineageOS Project
+# Copyright (C) 2020-2024 The LineageOS Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,11 +15,3 @@
 #
 
 -include device/nvidia/foster/AndroidBoard.mk
-
-BUILT_TARGET_FILES_ZIPROOT := $(call intermediates-dir-for,PACKAGING,target_files)/$(TARGET_PRODUCT)-target_files
-$(BUILT_TARGET_FILES_ZIPROOT).zip: $(BUILT_TARGET_FILES_ZIPROOT)/IMAGES/p3450_flash_package.txz
-
-$(BUILT_TARGET_FILES_ZIPROOT)/IMAGES/p3450_flash_package.txz: $(BUILT_TARGET_FILES_ZIPROOT).zip.list $(PRODUCT_OUT)/p3450_flash_package.txz
-	@mkdir -p $(dir $@)
-	@cp $(PRODUCT_OUT)/p3450_flash_package.txz $@
-	@echo $@ >> $(BUILT_TARGET_FILES_ZIPROOT).zip.list
