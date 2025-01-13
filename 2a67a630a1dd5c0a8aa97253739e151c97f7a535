@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87fb9a92_e37fcfb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 14048
+      },
+      "writtenOn": "2025-01-13T07:14:26Z",
+      "side": 1,
+      "message": "Signing claims that the last line is the start of an unterminated string. I don\u0027t see why, though. That should be the end of a string.",
+      "revId": "2a67a630a1dd5c0a8aa97253739e151c97f7a535",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
