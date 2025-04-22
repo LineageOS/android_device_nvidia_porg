@@ -26,6 +26,8 @@ JETSON_BL       := $(BUILD_TOP)/vendor/nvidia/foster/r32/bootloader
 
 ifneq ($(TARGET_PREBUILT_KERNEL),)
 DTB_PATH := $(dir $(TARGET_PREBUILT_KERNEL))
+else ifneq ($(TARGET_KERNEL_PLATFORM_TARGET),)
+DTB_PATH := $(abspath $(KERNEL_OUT))
 else ifeq ($(TARGET_KERNEL_VERSION),4.9)
 DTB_PATH := $(abspath $(KERNEL_OUT)/arch/arm64/boot/dts/)
 else ifneq ($(findstring dtstree,$(TARGET_KERNEL_ADDITIONAL_FLAGS)),)
