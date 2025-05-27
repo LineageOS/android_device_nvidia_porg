@@ -61,6 +61,7 @@ $(_p3450_package_archive): $(INSTALLED_BMP_BLOB_TARGET) $(INSTALLED_KERNEL_TARGE
 	@cp $(DTB_PATH)/tegra210-p3448-*-p3449-0000-*-android-devkit.dtb $(dir $@)/
 	@cp $(DTB_PATH)/tegra210-p3448-0003-p3542-0000-android-devkit.dtb $(dir $@)/
 	@cp $(FOSTER_BCT)/P3448_A00_lpddr4_204Mhz_P987.cfg $(dir $@)/
+	@cp $(FOSTER_BCT)/P3448-0003_A00_lpddr4_204Mhz_P987.cfg $(dir $@)/
 	@echo "NV3" > $(dir $@)/emmc_bootblob_ver.txt
 	@echo "# R18 , REVISION: 1" >> $(dir $@)/emmc_bootblob_ver.txt
 	@echo "BOARDID=3448 BOARDSKU=0002 FAB=200" >> $(dir $@)/emmc_bootblob_ver.txt

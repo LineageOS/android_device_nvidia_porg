@@ -99,6 +99,68 @@ $(PRODUCT_OUT)/porg_sd.blob: $(_porg_sd_blob)
 .PHONY: porg_sd.blob
 porg_sd.blob: $(PRODUCT_OUT)/porg_sd.blob
 
+_batuu_blob_intermediates := $(call intermediates-dir-for,ETC,batuu_.mtd)
+_batuu_blob := $(_batuu_blob_intermediates)/batuu.mtd
+
+BATUU_SIGNED_PATH := $(_batuu_blob_intermediates)
+_batuu_br_bct     := $(BATUU_SIGNED_PATH)/P3448-0003_A00_lpddr4_204Mhz_P987.bct
+
+$(_batuu_br_bct): $(INSTALLED_RECOVERYIMAGE_TARGET) $(TOYBOX_HOST) $(INSTALLED_KERNEL_TARGET) $(INSTALLED_TOS_TARGET) | $(ACP)
+	@mkdir -p $(dir $@)
+	@cp $(PORG_FLASH)/flash_android_t210_max-spi_sd_p3448.xml $(dir $@)/flash_android_t210_max-spi_sd_p3448.xml.tmp
+	@cp $(FOSTER_BCT)/P3448-0003_A00_lpddr4_204Mhz_P987.cfg $(dir $@)/
+	@cp $(T210_BL)/* $(dir $@)/
+	@rm $(dir $@)/cboot.bin
+	@cp $(T210_3261_BL)/cboot.bin $(dir $@)/cboot.bin
+	@rm $(dir $@)/tos-mon-only.img
+	@cp $(INSTALLED_TOS_TARGET) $(dir $@)/tos.img
+	@cp $(PRODUCT_OUT)/install/tegra210-p3448-0003-p3542-0000.dtb $(dir $@)/bl.dtb.encrypt
+	@cp $(PRODUCT_OUT)/install/tegra210-p3448-0003-p3542-0000-android-devkit.dtb $(dir $@)/temp.dtb.encrypt
+	@cp $(INSTALLED_RECOVERYIMAGE_TARGET) $(dir $@)/recovery.tmp.encrypt
+	cd $(dir $@); $(TEGRAFLASH_PATH)/tegraparser --pt flash_android_t210_max-spi_sd_p3448.xml.tmp
+	cd $(dir $@); $(TEGRAFLASH_PATH)/tegrahost --chip 0x21 --partitionlayout flash_android_t210_max-spi_sd_p3448.xml.bin --list images_list.xml
+	cd $(dir $@); $(TEGRAFLASH_PATH)/tegrasign --key None --list images_list.xml --pubkeyhash pub_key.key
+	cd $(dir $@); $(TEGRAFLASH_PATH)/tegrabct --bct P3448-0003_A00_lpddr4_204Mhz_P987.cfg --chip 0x21
+	cd $(dir $@); $(TEGRAFLASH_PATH)/tegrabct --bct P3448-0003_A00_lpddr4_204Mhz_P987.bct --chip 0x21 --updatedevparam flash_android_t210_max-spi_sd_p3448.xml.bin
+	cd $(dir $@); $(TEGRAFLASH_PATH)/tegrabct --bct P3448-0003_A00_lpddr4_204Mhz_P987.bct --chip 0x21 --updateblinfo flash_android_t210_max-spi_sd_p3448.xml.bin --updatesig images_list_signed.xml
+	cd $(dir $@); $(TEGRAFLASH_PATH)/tegraparser --pt flash_android_t210_max-spi_sd_p3448.xml.bin --chip 0x21 --updatecustinfo P3448-0003_A00_lpddr4_204Mhz_P987.bct
+	cd $(dir $@); $(TEGRAFLASH_PATH)/tegraparser --chip 0x21 --updatecustinfo P3448-0003_A00_lpddr4_204Mhz_P987.bct
+	cd $(dir $@); $(TEGRAFLASH_PATH)/tegrabct --bct P3448-0003_A00_lpddr4_204Mhz_P987.bct --chip 0x21 --updatefields "Odmdata =0x94800"
+	cd $(dir $@); $(TEGRAFLASH_PATH)/tegrabct --bct P3448-0003_A00_lpddr4_204Mhz_P987.bct --chip 0x21 --listbct bct_list.xml
+	cd $(dir $@); $(TEGRAFLASH_PATH)/tegrasign --key None --list bct_list.xml --pubkeyhash pub_key.key
+	cd $(dir $@); $(TEGRAFLASH_PATH)/tegrabct --bct P3448-0003_A00_lpddr4_204Mhz_P987.bct --chip 0x21 --updatesig bct_list_signed.xml
+	cd $(dir $@); $(TEGRAFLASH_PATH)/tegrahost --chip 0x21 --partitionlayout flash_android_t210_max-spi_sd_p3448.xml.bin --updatesig images_list_signed.xml
+	cd $(dir $@); $(TEGRAFLASH_PATH)/tegrabct --bct P3448-0003_A00_lpddr4_204Mhz_P987.bct --chip 0x21 --updatebfsinfo flash_android_t210_max-spi_sd_p3448.xml.bin
+
+$(_batuu_blob): $(_batuu_br_bct) $(INSTALLED_KERNEL_TARGET) $(TOYBOX_HOST) $(_p3450_package_archive) $(INSTALLED_BL_TARGETS) | $(ACP)
+	@mkdir -p $(dir $@)
+	@dd if=/dev/zero bs=512 count=8K |$(TOYBOX_HOST) tr "\000" "\377" > $@ # 4MB empty file
+	@dd if=$(BATUU_SIGNED_PATH)/P3448-0003_A00_lpddr4_204Mhz_P987.bct of=$@ conv=notrunc
+	@dd if=$(BATUU_SIGNED_PATH)/P3448-0003_A00_lpddr4_204Mhz_P987.bct of=$@ bs=512 seek=20 conv=notrunc
+	@dd if=$(BATUU_SIGNED_PATH)/P3448-0003_A00_lpddr4_204Mhz_P987.bct of=$@ bs=512 seek=64 conv=notrunc
+	@dd if=$(BATUU_SIGNED_PATH)/P3448-0003_A00_lpddr4_204Mhz_P987.bct of=$@ bs=512 seek=128 conv=notrunc
+	@dd if=$(BATUU_SIGNED_PATH)/P3448-0003_A00_lpddr4_204Mhz_P987.bct of=$@ bs=512 seek=192 conv=notrunc
+	@dd if=$(BATUU_SIGNED_PATH)/P3448-0003_A00_lpddr4_204Mhz_P987.bct of=$@ bs=512 seek=256 conv=notrunc
+	@dd if=$(BATUU_SIGNED_PATH)/P3448-0003_A00_lpddr4_204Mhz_P987.bct of=$@ bs=512 seek=320 conv=notrunc
+	@dd if=$(BATUU_SIGNED_PATH)/P3448-0003_A00_lpddr4_204Mhz_P987.bct of=$@ bs=512 seek=384 conv=notrunc
+	@dd if=$(BATUU_SIGNED_PATH)/P3448-0003_A00_lpddr4_204Mhz_P987.bct of=$@ bs=512 seek=448 conv=notrunc
+	@dd if=$(BATUU_SIGNED_PATH)/nvtboot.bin.encrypt of=$@ bs=512 seek=512 conv=notrunc
+	@dd if=$(BATUU_SIGNED_PATH)/flash_android_t210_max-spi_sd_p3448.xml.bin of=$@ bs=512 seek=896 conv=notrunc
+	@dd if=$(BATUU_SIGNED_PATH)/nvtboot.bin.encrypt of=$@ bs=512 seek=1024 conv=notrunc
+	@dd if=$(BATUU_SIGNED_PATH)/nvtboot_cpu.bin.encrypt of=$@ bs=512 seek=1408 conv=notrunc
+	@dd if=$(BATUU_SIGNED_PATH)/warmboot.bin.encrypt of=$@ bs=512 seek=1664 conv=notrunc
+	@dd if=$(BATUU_SIGNED_PATH)/sc7entry-firmware.bin.encrypt of=$@ bs=512 seek=1792 conv=notrunc
+	@dd if=$(T210_BL)/rp4.blob of=$@ bs=512 seek=2048 conv=notrunc
+	@dd if=$(_p3450_package_intermediates)/qspi_bootblob_ver.txt of=$@ bs=512 seek=7936 conv=notrunc
+	@dd if=$(_p3450_package_intermediates)/qspi_bootblob_ver.txt of=$@ bs=512 seek=8064 conv=notrunc
+	@truncate -s 589824 $(PRODUCT_OUT)/install/cboot.bin
+
+$(PRODUCT_OUT)/batuu.blob: $(_batuu_blob)
+	$(hide) cp $< $@
+
+.PHONY: batuu.blob
+batuu.blob: $(PRODUCT_OUT)/batuu.blob
+
 _porg_emmc_blob_intermediates := $(call intermediates-dir-for,ETC,porg_emmc.boot0)
 _porg_emmc_blob := $(_porg_emmc_blob_intermediates)/porg_emmc.boot0
 
@@ -179,10 +241,12 @@ $(PRODUCT_OUT)/porg_emmc.blob2: $(_porg_emmc_blob2)
 porg_emmc.blob2: $(PRODUCT_OUT)/porg_emmc.blob2
 
 INSTALLED_RADIOIMAGE_TARGET += $(_porg_sd_blob)
+INSTALLED_RADIOIMAGE_TARGET += $(_batuu_blob)
 INSTALLED_RADIOIMAGE_TARGET += $(_porg_emmc_blob)
 INSTALLED_RADIOIMAGE_TARGET += $(_porg_emmc_blob2)
 
 $(call intermediates-dir-for,PACKAGING,target_files)/$(TARGET_PRODUCT)-target_files.zip.list: $(_porg_sd_blob)
+$(call intermediates-dir-for,PACKAGING,target_files)/$(TARGET_PRODUCT)-target_files.zip.list: $(_batuu_blob)
 $(call intermediates-dir-for,PACKAGING,target_files)/$(TARGET_PRODUCT)-target_files.zip.list: $(_porg_emmc_blob)
 $(call intermediates-dir-for,PACKAGING,target_files)/$(TARGET_PRODUCT)-target_files.zip.list: $(_porg_emmc_blob2)
 endif

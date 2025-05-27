@@ -52,6 +52,7 @@ if [ ${MODULEINFO[sku]} -eq 2 ]; then
 elif [ ${MODULEINFO[sku]} -eq 3 ]; then
   FLASH_XML="flash_android_t210_max-spi_sd_p3448.xml"
   BL_DTB="tegra210-p3448-0003-p3542-0000"
+  BCT_CFG="P3448-0003_A00_lpddr4_204Mhz_P987.cfg"
 elif [ ${MODULEINFO[sku]} -eq 0 ]; then
   FLASH_XML="flash_android_t210_max-spi_sd_p3448.xml"
   if [ "${MODULEINFO[version]}" \< "300" ]; then

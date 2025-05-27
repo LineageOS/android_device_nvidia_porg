@@ -106,7 +106,7 @@ ifelse(
   ),
   (
     ifelse(
-      getprop("ro.hardware") == "porg_sd" || getprop("ro.hardware") == "batuu",
+      getprop("ro.hardware") == "porg_sd",
       (
         ifelse(
           tegra_check_cboot_version("{JETSON_BL_VERSION}"),
@@ -116,6 +116,25 @@ ifelse(
           (
             ui_print("Flashing updated bootloader for unfused " + getprop(ro.hardware));
             package_extract_file("firmware-update/porg_sd.mtd", "{MTD_PART}");
+            package_extract_file("install/" + tegra_get_dtbname(), "{RP1_PART}");
+            package_extract_file("install/cboot.bin", "{EBT_PART}");
+            package_extract_file("install/tos.img", "{TOS_PART}");
+          )
+        );
+        package_extract_file("install/" + tegra_get_dtbname(), "{DTB_PART}");
+      )
+    );
+    ifelse(
+      getprop("ro.hardware") == "batuu",
+      (
+        ifelse(
+          tegra_check_cboot_version("{JETSON_BL_VERSION}"),
+          (
+            ui_print("Correct bootloader already installed for unfused " + getprop(ro.hardware));
+          ),
+          (
+            ui_print("Flashing updated bootloader for unfused " + getprop(ro.hardware));
+            package_extract_file("firmware-update/batuu.mtd", "{MTD_PART}");
             package_extract_file("install/" + tegra_get_dtbname(), "{RP1_PART}");
             package_extract_file("install/cboot.bin", "{EBT_PART}");
             package_extract_file("install/tos.img", "{TOS_PART}");
