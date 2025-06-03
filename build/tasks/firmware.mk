@@ -24,7 +24,7 @@ INSTALLED_KERNEL_TARGET := $(PRODUCT_OUT)/kernel
 TOYBOX_HOST := $(HOST_OUT_EXECUTABLES)/toybox
 
 INSTALLED_RECOVERYIMAGE_TARGET := $(PRODUCT_OUT)/recovery.img
-INSTALLED_TOS_TARGET           := $(PRODUCT_OUT)/tos-$(if $(filter-out software,$(TARGET_TEGRA_TOS)),$(TARGET_TEGRA_TOS),mon-only).img
+INSTALLED_TOS_TARGET           := $(PRODUCT_OUT)/tos-$(if $(filter rel-shield-r software,$(TARGET_TEGRA_TOS)),mon-only,$(TARGET_TEGRA_TOS)).img
 
 _p3450_package_intermediates := $(call intermediates-dir-for,ETC,p3450_flash_package)
 _p3450_package_archive       := $(_p3450_package_intermediates)/p3450_flash_package.txz

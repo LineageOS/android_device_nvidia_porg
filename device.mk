@@ -15,12 +15,7 @@
 #
 
 TARGET_TEGRA_BT     ?= btlinux
-
-ifneq ($(filter 3.10 4.9 5.10, $(TARGET_TEGRA_KERNEL)),)
 TARGET_TEGRA_HEALTH ?= nobattery
-else
-TARGET_HAS_BATTERY  ?= false
-endif
 
 # Only include Shield apps for first party targets
 include device/nvidia/shield-common/shield.mk
